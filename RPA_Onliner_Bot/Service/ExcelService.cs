@@ -24,6 +24,11 @@ namespace RPA_Onliner_Bot.Service
 
         public bool WriteData(List<MicrowaveData> list)
         {
+            if (list == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             this.excel.DisplayAlerts = false;
             bool flag;
 
