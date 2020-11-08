@@ -55,10 +55,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Service\Abstract\IExcelService.cs" />
     <Compile Include="Service\Abstract\ISeleniumService.cs" />
     <Compile Include="DataFile\MicrowaveData.cs" />
     <Compile Include="Console\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\ExcelService.cs" />
     <Compile Include="Service\SeleniumService.cs" />
   </ItemGroup>
   <ItemGroup>

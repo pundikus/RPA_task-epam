@@ -67,7 +67,8 @@ namespace RPA_Onliner_Bot.Service
 
             foreach (IWebElement element in listData)
             {
-                string name = element.FindElement(By.ClassName("schema-product__title")).Text;
+                string nameFull = element.FindElement(By.ClassName("schema-product__title")).Text;
+                string name = nameFull.Remove(0, 19);
                 string price = element.FindElement(By.ClassName("schema-product__price")).Text;
                 string link = element.FindElement(By.TagName("a")).GetAttribute("href");
 
@@ -78,6 +79,9 @@ namespace RPA_Onliner_Bot.Service
                     Link = link,
                 });
             }
+
+            this.driver.Dispose();
+            GC.Collect();
 
             return resultList;
         }
