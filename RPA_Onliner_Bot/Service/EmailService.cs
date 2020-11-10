@@ -1,34 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 using RPA_Onliner_Bot.Service.Abstract;
 
 namespace RPA_Onliner_Bot.Service
 {
     public class EmailService : IEmailService
     {
-        public bool SendMessage(bool result, string path, string address)
+        private readonly SmtpClient smtpClient;
+
+        public EmailService(SmtpClient smtpClient)
+        {
+            this.smtpClient = smtpClient;
+        }
+
+        public bool SendMessage(string path, string address)
         {
             if (path == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(path));
             }
 
             if (address == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(address));
             }
 
-            if (!result)
-            {
-                return false;
-            }
-
-            MailAddress from = new MailAddress("nikita.pundis@mail.ru", "Nikita");
+            MailAddress from = new MailAddress(((NetworkCredential)this.smtpClient.Credentials).UserName);
 
             MailAddress to = new MailAddress(address);
 
@@ -36,11 +34,8 @@ namespace RPA_Onliner_Bot.Service
 
             message.Attachments.Add(new Attachment(path));
 
-            SmtpClient smtp = new SmtpClient("smtp.mail.ru", 587);
-
-            smtp.Credentials = new NetworkCredential("nikita.pundis@mail.ru", "ybrbnrf2703");
-            smtp.EnableSsl = true;
-            smtp.Send(message);
+            this.smtpClient.EnableSsl = true;
+            this.smtpClient.Send(message);
 
             return true;
         }
